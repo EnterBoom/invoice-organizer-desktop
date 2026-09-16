@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>发票整理器</title>
+    <link rel="icon" href="data:," />
+    <style>
+      body {
+        margin: 0;
+        background: linear-gradient(180deg, #f7f1e4 0%, #efe6d4 100%);
+        color: #1f2522;
+        font-family: "Avenir Next", "PingFang SC", sans-serif;
+      }
+
+      #file-fallback {
+        display: none;
+        min-height: 100vh;
+        padding: 32px 20px;
+      }
+
+      .fallback-card {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 28px;
+        border: 1px solid rgba(48, 49, 40, 0.08);
+        border-radius: 28px;
+        background: rgba(255, 251, 244, 0.92);
+        box-shadow: 0 20px 50px rgba(76, 63, 37, 0.08);
+      }
+
+      .fallback-card h1 {
+        margin: 0 0 12px;
+        font-family: "Iowan Old Style", "Songti SC", serif;
+        font-size: clamp(30px, 6vw, 48px);
+        line-height: 1;
+      }
+
+      .fallback-card p {
+        margin: 0 0 12px;
+        line-height: 1.7;
+        color: #56615b;
+      }
+
+      .fallback-card a {
+        display: inline-flex;
+        align-items: center;
+        min-height: 48px;
+        padding: 0 16px;
+        border-radius: 16px;
+        background: linear-gradient(145deg, #c86c26, #dd9152);
+        color: #fff9f0;
+        text-decoration: none;
+        font-weight: 700;
+      }
+
+      .fallback-card code {
+        padding: 2px 6px;
+        border-radius: 8px;
+        background: rgba(45, 55, 47, 0.08);
+      }
+    </style>
+  </head>
+  <body>
+    <section id="file-fallback">
+      <div class="fallback-card">
+        <h1>这里是开发入口，不是可直接双击运行的页面。</h1>
+        <p>你现在打开的是源码目录下的 <code>index.html</code>，它需要 Vite 开发服务器来加载 <code>src/main.tsx</code>，所以直接用 <code>file://</code> 打开会是空白。</p>
+        <p>如果已经执行过打包，请改打开下面这个本地可运行入口：</p>
+        <p><a id="dist-link" href="./dist/index.html">打开打包后的页面</a></p>
+      </div>
+    </section>
+    <div id="root"></div>
+    <script>
+      const isFileMode = window.location.protocol === "file:";
+      const fallback = document.getElementById("file-fallback");
+      const root = document.getElementById("root");
+
+      if (isFileMode && !window.location.pathname.includes("/dist/")) {
+        const distLink = document.getElementById("dist-link");
+        distLink.href = new URL("./dist/index.html", window.location.href).href;
+        fallback.style.display = "block";
+        root.style.display = "none";
+        window.__INVOICE_FILE_FALLBACK__ = true;
+      }
+    </script>
+    <script type="module">
+      if (!window.__INVOICE_FILE_FALLBACK__) {
+        import("/src/main.tsx");
+      }
+    </script>
+  </body>
+</html>
