@@ -16,21 +16,21 @@ jobs:
         include:
           - platform: macos-latest
             rust_targets: aarch64-apple-darwin,x86_64-apple-darwin
-            tauri_args: --target universal-apple-darwin
+            tauri_args: --target universal-apple-darwin --bundles dmg
           - platform: windows-latest
             rust_targets: x86_64-pc-windows-msvc
-            tauri_args: --target x86_64-pc-windows-msvc
+            tauri_args: --target x86_64-pc-windows-msvc --bundles nsis
 
     runs-on: ${{ matrix.platform }}
 
     steps:
       - name: Checkout source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Install Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v5
         with:
-          node-version: 20
+          node-version: 24
           cache: npm
 
       - name: Install Rust
